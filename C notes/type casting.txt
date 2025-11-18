@@ -1,0 +1,1 @@
+in python type casting is done like int(float). in c, it is (int)float number.

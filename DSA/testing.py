@@ -1,0 +1,36 @@
+#STRING FUNCTIONS
+#CENTER
+s='welcome'
+s=s.center(50)
+print(s)
+#or
+s='hey'
+x=s.center(50,'-')
+print(x)
+#JUSTIFIED(JUST)
+s='hello'
+y=s.ljust(40,'*')
+print(y)
+s='hello'
+z=s.rjust(60,'*')
+print(z)
+#SPLIT
+str='as-ab-kh-sh'
+splitted=str.split('-',2)
+print(splitted)
+#REPLACE
+str='abcabcabc'
+str=str.replace('abc','dD',2)
+print(str)
+#FIND
+str='abcdatdfj'
+x=str.find('d')
+print(x)
+x=str.find('z')
+print(x)#returns -1 if not found
+#or
+x=str.find('d',4,len(str))
+print(x)
+#INDEX
+y=str.index('da')
+print(y)

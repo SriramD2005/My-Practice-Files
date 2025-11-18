@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+  <meta charset="UTF-8">
+  <centre>
+  <title>ReenuCircuit</title>
+  </centre>
+  <style>
+    body { font-family: Arial, sans-serif; line-height: 1.6; margin: 2em; background-color: #f9f9f9; }
+    h1, h2 { color: #333; }
+    pre { background-color: #eee; padding: 1em; border-radius: 5px; }
+    table { border-collapse: collapse; margin-top: 1em; }
+    td, th { border: 1px solid #ccc; padding: 0.5em; }
+  </style>
+</head>
+<body>
+  <center>
+  <h1>⚡ ReenuCircuit</h1>
+  </center>
+  <h2>🧠 Problem Description</h2>
+  <p>Reenu is an electrical engineer who designs circuits using two types of resistors:</p>
+  <ul>
+    <li><strong>Horizontal resistor</strong>: <code>-</code> → allows current to flow left/right</li>
+    <li><strong>Vertical resistor</strong>: <code>|</code> → allows current to flow up/down</li>
+    <li><strong>Junction</strong>: <code>+</code> → connects all four directions with negligible resistance</li>
+    <li><strong>Terminal</strong>: <code>.</code> → marks the opening and closing points of the circuit</li>
+  </ul>
+  <p>The circuit is represented as an <strong>N × N matrix</strong>. Your task is to compute the <strong>total equivalent resistance</strong> between the opening and closing terminals, following valid paths and applying:</p>
+  <ul>
+    <li><strong>Series Rule</strong>: <code>RT = R1 + R2</code></li>
+    <li><strong>Parallel Rule</strong>: <code>1/RT = 1/R1 + 1/R2</code></li>
+  </ul>
+
+  <h2>📥 Input Format</h2>
+  <ul>
+    <li>First line: Integer <code>N</code> (size of the matrix), where <code>3 ≤ N ≤ 10</code></li>
+    <li>Next <code>N</code> lines: Each line contains <code>N</code> characters representing the circuit grid</li>
+  </ul>
+
+  <h2>📤 Output Format</h2>
+  <p>A single integer representing the total resistance between the opening and closing terminals.</p>
+
+  <h2>🧪 Symbols and Meaning</h2>
+  <table>
+    <tr><th>Symbol</th><th>Meaning</th></tr>
+    <tr><td><code>.</code></td><td>Terminal (start or end)</td></tr>
+    <tr><td><code>-</code></td><td>Horizontal resistor (1Ω)</td></tr>
+    <tr><td><code>|</code></td><td>Vertical resistor (1Ω)</td></tr>
+    <tr><td><code>+</code></td><td>Junction (0Ω, connects all)</td></tr>
+  </table>
+
+  <h2>🧾 Example 1</h2>
+  <pre>
+Input:
+4
+.-+-
+--|-
++-+-
+|-+.
+
+Output:
+2
+  </pre>
+  <p><strong>Explanation:</strong> The path from opening to closing passes through 2 resistors. Junctions add no resistance.</p>
+
+  <h2>🧾 Example 2</h2>
+  <pre>
+Input:
+5
+.-+-+
+--|-|
+--|-|
+--|-|
+--+-.
+
+Output:
+3
+  </pre>
+  <p><strong>Explanation:</strong> Two paths exist from opening to closing. Their resistances are reduced using parallel and series rules, resulting in a total of 3Ω.</p>
+</body>
+</html>

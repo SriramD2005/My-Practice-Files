@@ -1,0 +1,57 @@
+mysql> select * from branch
+    -> ;
++------+--------------+
+| Bno  | Bcity        |
++------+--------------+
+| B003 |  Glasgow     |
+| B004 |  Bristol     |
+| B002 |  London      |
++------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from property;
++------+----------+
+| Pno  | Pcity    |
++------+----------+
+| PA14 | Aberdeen |
+| PL94 | London   |
+| PG4  | Glasgow  |
++------+----------+
+3 rows in set (0.00 sec)
+mysql> -- inner join
+mysql> select b.*, p.* for branch b join property p on Bcity = Pcity;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'branch b join property p on Bcity = Pcity' at line 1
+mysql> select b.*, p.* from branch b join property p on Bcity = Pcity;
+Empty set (0.01 sec)
+
+mysql> select b.*, p.* from branch b join property p on b.Bcity = p.Pcity;
+Empty set (0.00 sec)
+
+mysql> desc property;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| Pno   | char(5)     | YES  |     | NULL    |       |
+| Pcity | varchar(15) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.05 sec)
+
+mysql> desc branch;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| Bno   | char(5)     | YES  |     | NULL    |       |
+| Bcity | varchar(15) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select b.*, p.* from branch b join property p on trim(Bcity) = trim(Pcity);
++------+--------------+------+---------+
+| Bno  | Bcity        | Pno  | Pcity   |
++------+--------------+------+---------+
+| B002 |  London      | PL94 | London  |
+| B003 |  Glasgow     | PG4  | Glasgow |
++------+--------------+------+---------+
+2 rows in set (0.01 sec)
+
+mysql> -- we use trim because there is some front spaces

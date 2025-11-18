@@ -1,0 +1,163 @@
+mysql> select * from sales;
++---------------+------------+------------+-------------+----------+-------+-------------+-----------------+
+| TransactionID | CustomerID | Product    | Category    | Quantity | Price | TotalAmount | TransactionDate |
++---------------+------------+------------+-------------+----------+-------+-------------+-----------------+
+|           101 |          1 | Laptop     | Electronics |        1 |   800 |         800 | 2025-05-01      |
+|           102 |          2 | Phone      | Electronics |        2 |   500 |        1000 | 2025-05-02      |
+|           103 |          3 | Headphones | Accessories |        1 |   100 |         100 | 2025-05-03      |
+|           104 |          2 | Phone      | Electronics |        1 |   500 |         500 | 2025-05-04      |
+|           105 |          1 | Mouse      | Accessories |        2 |    50 |         100 | 2025-05-05      |
+|           106 |          3 | Laptop     | Electronics |        1 |   800 |         800 | 2025-05-06      |
++---------------+------------+------------+-------------+----------+-------+-------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> select CustomerId, sum(totalamount) as "total" group by customerid having total>500;
+ERROR 1054 (42S22): Unknown column 'CustomerId' in 'field list'
+mysql> select CustomerId, sum(totalamount) as "total" from sales group by customerid having total>500;
++------------+-------+
+| CustomerId | total |
++------------+-------+
+|          1 |   900 |
+|          2 |  1500 |
+|          3 |   900 |
++------------+-------+
+3 rows in set (0.02 sec)
+
+mysql> select product, sum(quantity) as "sum" from sales group by product having sum >= 2;
++---------+------+
+| product | sum  |
++---------+------+
+| Laptop  |    2 |
+| Phone   |    3 |
+| Mouse   |    2 |
++---------+------+
+3 rows in set (0.00 sec)
+
+mysql> select catogory, sum(totalamount) as "revenue" from sales group by category having revenue>1000;
+ERROR 1054 (42S22): Unknown column 'catogory' in 'field list'
+mysql> select category, sum(totalamount) as "revenue" from sales group by category having revenue>1000;
++-------------+---------+
+| category    | revenue |
++-------------+---------+
+| Electronics |    3100 |
++-------------+---------+
+1 row in set (0.01 sec)
+
+mysql> select category as "revenue" from sales where revenue like "L%";
+ERROR 1054 (42S22): Unknown column 'revenue' in 'where clause'
+mysql> select category as 'cat', sum(totalamount) as "revenue" from sales group by cat having revenue>1000;
++-------------+---------+
+| cat         | revenue |
++-------------+---------+
+| Electronics |    3100 |
++-------------+---------+
+1 row in set (0.01 sec)
+
+mysql> select * from sales where avg(price)>500;
+ERROR 1111 (HY000): Invalid use of group function
+mysql> select * from sales where price > (select avg(price) from sales;);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> select * from sales where price > (select avg(price) from sales);
++---------------+------------+---------+-------------+----------+-------+-------------+-----------------+
+| TransactionID | CustomerID | Product | Category    | Quantity | Price | TotalAmount | TransactionDate |
++---------------+------------+---------+-------------+----------+-------+-------------+-----------------+
+|           101 |          1 | Laptop  | Electronics |        1 |   800 |         800 | 2025-05-01      |
+|           102 |          2 | Phone   | Electronics |        2 |   500 |        1000 | 2025-05-02      |
+|           104 |          2 | Phone   | Electronics |        1 |   500 |         500 | 2025-05-04      |
+|           106 |          3 | Laptop  | Electronics |        1 |   800 |         800 | 2025-05-06      |
++---------------+------------+---------+-------------+----------+-------+-------------+-----------------+
+4 rows in set (0.05 sec)
+
+mysql> select price - (select avg(price) from sales) from sales;
++----------------------------------------+
+| price - (select avg(price) from sales) |
++----------------------------------------+
+|                               341.6667 |
+|                                41.6667 |
+|                              -358.3333 |
+|                                41.6667 |
+|                              -408.3333 |
+|                               341.6667 |
++----------------------------------------+
+6 rows in set (0.01 sec)
+
+mysql> select * from sales where (select avg(price) from sales)>price;
++---------------+------------+------------+-------------+----------+-------+-------------+-----------------+
+| TransactionID | CustomerID | Product    | Category    | Quantity | Price | TotalAmount | TransactionDate |
++---------------+------------+------------+-------------+----------+-------+-------------+-----------------+
+|           103 |          3 | Headphones | Accessories |        1 |   100 |         100 | 2025-05-03      |
+|           105 |          1 | Mouse      | Accessories |        2 |    50 |         100 | 2025-05-05      |
++---------------+------------+------------+-------------+----------+-------+-------------+-----------------+
+2 rows in set (0.01 sec)
+
+mysql> select * from sales;
++---------------+------------+------------+-------------+----------+-------+-------------+-----------------+
+| TransactionID | CustomerID | Product    | Category    | Quantity | Price | TotalAmount | TransactionDate |
++---------------+------------+------------+-------------+----------+-------+-------------+-----------------+
+|           101 |          1 | Laptop     | Electronics |        1 |   800 |         800 | 2025-05-01      |
+|           102 |          2 | Phone      | Electronics |        2 |   500 |        1000 | 2025-05-02      |
+|           103 |          3 | Headphones | Accessories |        1 |   100 |         100 | 2025-05-03      |
+|           104 |          2 | Phone      | Electronics |        1 |   500 |         500 | 2025-05-04      |
+|           105 |          1 | Mouse      | Accessories |        2 |    50 |         100 | 2025-05-05      |
+|           106 |          3 | Laptop     | Electronics |        1 |   800 |         800 | 2025-05-06      |
++---------------+------------+------------+-------------+----------+-------+-------------+-----------------+
+6 rows in set (0.01 sec)
+
+mysql> select category, Price from sales where Price > any(select Price from sales where category like "Accessories");
++-------------+-------+
+| category    | Price |
++-------------+-------+
+| Electronics |   800 |
+| Electronics |   500 |
+| Accessories |   100 |
+| Electronics |   500 |
+| Electronics |   800 |
++-------------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select customerid, totalamount where totalamount < all(select totalamount from sales where category like "Electronics";
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> select customerid, totalamount where totalamount < all(select totalamount from sales where category like "Electronics");
+ERROR 1054 (42S22): Unknown column 'customerid' in 'field list'
+mysql> select customerid, totalamount from sales where totalamount < all(select totalamount from sales where category like "Electronics");
++------------+-------------+
+| customerid | totalamount |
++------------+-------------+
+|          3 |         100 |
+|          1 |         100 |
++------------+-------------+
+2 rows in set (0.01 sec)
+
+mysql> select customerid, totalamount from sales where totalamount < any(select totalamount from sales where category like "Electronics");
++------------+-------------+
+| customerid | totalamount |
++------------+-------------+
+|          1 |         800 |
+|          3 |         100 |
+|          2 |         500 |
+|          1 |         100 |
+|          3 |         800 |
++------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select customerid, totalamount from sales where totalamount > any(select totalamount from sales where customerid =3);
++------------+-------------+
+| customerid | totalamount |
++------------+-------------+
+|          1 |         800 |
+|          2 |        1000 |
+|          2 |         500 |
+|          3 |         800 |
++------------+-------------+
+4 rows in set (0.02 sec)
+
+mysql> select customerid, totalamount from sales where totalamount > any(select totalamount from sales where customerid =3) and not customerid = 3;
++------------+-------------+
+| customerid | totalamount |
++------------+-------------+
+|          1 |         800 |
+|          2 |        1000 |
+|          2 |         500 |
++------------+-------------+
+3 rows in set (0.02 sec)

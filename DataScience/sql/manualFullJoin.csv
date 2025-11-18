@@ -1,0 +1,83 @@
+mysql> select Bno, Bcity, Pno, Pcity from (select Bno, Bcity from branch right join property on trim(Bcity) = trim(Pcity)) as b, (select Pno, Pcity from bra
+nch left join property on trim(Bcity) = trim(Pcity)) as c;
++------+--------------+------+---------+
+| Bno  | Bcity        | Pno  | Pcity   |
++------+--------------+------+---------+
+| B003 |  Glasgow     | PG4  | Glasgow |
+| B002 |  London      | PG4  | Glasgow |
+| NULL | NULL         | PG4  | Glasgow |
+| B003 |  Glasgow     | NULL | NULL    |
+| B002 |  London      | NULL | NULL    |
+| NULL | NULL         | NULL | NULL    |
+| B003 |  Glasgow     | PL94 | London  |
+| B002 |  London      | PL94 | London  |
+| NULL | NULL         | PL94 | London  |
++------+--------------+------+---------+
+9 rows in set (0.01 sec)
+
+mysql> select * from branch;
++------+--------------+
+| Bno  | Bcity        |
++------+--------------+
+| B003 |  Glasgow     |
+| B004 |  Bristol     |
+| B002 |  London      |
++------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from property;
++------+----------+
+| Pno  | Pcity    |
++------+----------+
+| PA14 | Aberdeen |
+| PL94 | London   |
+| PG4  | Glasgow  |
++------+----------+
+3 rows in set (0.00 sec)
+
+mysql> select Bno, Bcity from branch right join property on Bcity = Pcity;
++------+-------+
+| Bno  | Bcity |
++------+-------+
+| NULL | NULL  |
+| NULL | NULL  |
+| NULL | NULL  |
++------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select Bno, Bcity from branch right join property on trim(Bcity) = trim(Pcity);
++------+--------------+
+| Bno  | Bcity        |
++------+--------------+
+| NULL | NULL         |
+| B002 |  London      |
+| B003 |  Glasgow     |
++------+--------------+
+3 rows in set (0.00 sec)
+
+mysql> select Pno, Pcity from bra
+    -> nch left join property on trim(Bcity) = trim(Pcity)
+    -> ;
+ERROR 1146 (42S02): Table 'twelthPractice.bra' doesn't exist
+mysql> select Pno, Pcity from branch left join property on trim(Bcity) = trim(Pcity);
++------+---------+
+| Pno  | Pcity   |
++------+---------+
+| PG4  | Glasgow |
+| NULL | NULL    |
+| PL94 | London  |
++------+---------+
+3 rows in set (0.00 sec)
+
+mysql> select b.*, p.* from branch b left join property p on trim(Bcity) = trim(Pcity);
++------+--------------+------+---------+
+| Bno  | Bcity        | Pno  | Pcity   |
++------+--------------+------+---------+
+| B003 |  Glasgow     | PG4  | Glasgow |
+| B004 |  Bristol     | NULL | NULL    |
+| B002 |  London      | PL94 | London  |
++------+--------------+------+---------+
+3 rows in set (0.00 sec)
+
+mysql>-- to simulate full join you should use UNION atleast for this case.
+

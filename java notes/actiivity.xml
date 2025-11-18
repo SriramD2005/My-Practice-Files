@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:gravity="center"
+              android:padding="24dp"
+              android:background="#0077ffff">
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="🌸 Hi Hello"
+            android:textSize="24sp"
+            android:textColor="#3a9dd7ff"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp" />
+
+    <Button
+            android:id="@+id/buttonStartRitual"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Ritual" />
+
+    <Button
+            android:id="@+id/buttonDiagnose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Run Vehicle Check"
+            android:layout_marginTop="12dp" />
+
+    <Button
+            android:id="@+id/buttonGratitudeLog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gratitude Log"
+            android:layout_marginTop="12dp" />
+</LinearLayout>

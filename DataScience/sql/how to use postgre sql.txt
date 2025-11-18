@@ -1,0 +1,17 @@
+sriram_linux@Sriram:~$ sudo service postgresql start
+[sudo] password for sriram_linux:
+sriram_linux@Sriram:~$ sudo -i -u postgres
+postgres@Sriram:~$
+logout
+sriram_linux@Sriram:~$ sudo -i -u postgres
+postgres@Sriram:~$ psql
+psql (16.9 (Ubuntu 16.9-0ubuntu0.24.04.1))
+Type "help" for help.
+
+postgres=# use datadefinition;
+ERROR:  syntax error at or near "use"
+LINE 1: use datadefinition;
+        ^
+postgres=# \c datadefinition;
+You are now connected to database "datadefinition" as user "postgres".
+datadefinition=#

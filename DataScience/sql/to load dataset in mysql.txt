@@ -1,0 +1,4 @@
+Bash:
+sudo mv '/mnt/c/coding/data science/sql/event.csv'  /var/lib/mysql-files/ 
+SQL:
+LOAD DATA  INFILE '/var/lib/mysql-files/event.csv' INTO TABLE event FIELDS TERMINATED BY ',' LINES TERMINATED BY '\n';

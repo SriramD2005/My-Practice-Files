@@ -1,0 +1,11 @@
+import matplotlib.pyplot as mt
+fig,axes=mt.subplots()
+axes.plot([1,2],[3,7],color='0',)
+axes.grid()
+axes.set_label('hi')
+mt.title("gotcha")
+mt.xlabel("x axis")
+mt.ylabel("y axis")
+mt.text(1.5,5,"hi",color='red',size=12)
+mt.__doc__()
+#mt.show()
