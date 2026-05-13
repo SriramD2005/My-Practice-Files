@@ -1,14 +1,14 @@
 import random
 import math
 
-# 🔧 Activation functions
+#Activation functions
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
 def sigmoid_derivative(x):
     return x * (1 - x)
 
-# 🧱 Layer class
+#  Layer class
 class Layer:
     def __init__(self, input_size, output_size):
         self.weights = [[random.uniform(-1, 1) for _ in range(input_size)] for _ in range(output_size)]
@@ -35,7 +35,7 @@ class Layer:
                 self.weights[i][j] += learning_rate * self.deltas[i] * self.inputs[j]
             self.biases[i] += learning_rate * self.deltas[i]
 
-# 🧠 MLP class
+# MLP class
 class MLP:
     def __init__(self, layers):
         self.layers = []
@@ -72,7 +72,7 @@ class MLP:
             if epoch % 100 == 0:
                 print(f"Epoch {epoch}, Loss: {total_loss:.4f}")
 
-# 🧪 Ritualized test
+#  Ritualized test
 if __name__ == "__main__":
     # XOR dataset
     data = [[0,0], [0,1], [1,0], [1,1]]
